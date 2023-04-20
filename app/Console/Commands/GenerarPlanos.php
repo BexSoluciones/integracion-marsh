@@ -67,7 +67,10 @@ class GenerarPlanos extends Command
                             if ($sum != 1 && $sum < $dataLost) {
 
 				                $valueB = Funciones::caracterEspecial($valueB);
-                                $valueB = Funciones::caracterEspecialSimbol($valueB);
+                                $valueB = str_replace('--','/',$valueB);
+                                $valueB = Funciones::caracterEspecialSimbolB($valueB);
+                                // $valueB = Funciones::caracterEspecialSimbol($valueB);
+
                                 $campoDpl = true;
                                 $pos = strpos($valueB, ':');
                                 $pos++;
