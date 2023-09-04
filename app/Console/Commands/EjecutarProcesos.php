@@ -26,7 +26,7 @@ class EjecutarProcesos extends Command
         $consTabla->getTable();
         $consTabla->bind("tbl_consulta");
         $dia = '01';
-        $this->info($consTabla);
+      
         if ($consTabla->where('codigo','>',0)->where('tabla_destino', 'like', 'tbl_ws_inventario%')->update(['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin])) {
             echo "FECHAS CONSULTAS ACTUALIZADAS: INICIO[".$fechaInicio."] / FIN[".$fechaFin."] \n";
         }
