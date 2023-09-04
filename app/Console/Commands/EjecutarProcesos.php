@@ -20,32 +20,32 @@ class EjecutarProcesos extends Command
 
         $fechaInicio = Funciones::fechaConsulta("inicio");
         $fechaFin = Funciones::fechaConsulta("fin");
-
         // dd($fechaFin);
 
         $consTabla = new Tabla;
         $consTabla->getTable();
         $consTabla->bind("tbl_consulta");
         $dia = '01';
-
+        $this->info($consTabla);
         if ($consTabla->where('codigo','>',0)->where('tabla_destino', 'like', 'tbl_ws_inventario%')->update(['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin])) {
             echo "FECHAS CONSULTAS ACTUALIZADAS: INICIO[".$fechaInicio."] / FIN[".$fechaFin."] \n";
         }
-
-        if ($consTabla->where('codigo','>',0)->where('tabla_destino', 'like', 'tbl_ws_cliente%')->where('tabla_destino', 'like', 'tbl_ws_detalle_venta%')
+       
+        if ($consTabla->where('codigo','>',0)->where('tabla_destino', 'like', 'tbl_ws_cliente%')->orWhere('tabla_destino', 'like', 'tbl_ws_detalle_venta%')
            ->update(['fechaInicio' => $fechaFin, 'fechaFin' => $fechaFin])) {
             echo "FECHAS CONSULTAS ACTUALIZADAS: INICIO[".$fechaFin."] / FIN[".$fechaFin."] \n";
         }
+        
         //LAS TABLAS DE "tbl_ws_cliente" Y "tbl_ws_detalle_venta" DEBEN ESTAR EN CERO EN LA COLUMNA truncate.
-        if ($consTabla->whereRaw("DAY(fechaInicio) = ?", [$dia])->update(['truncate' => 1])) {
+        if ($consTabla->whereRaw("DAY(fechaInicio) = ?", [$dia])->where('tabla_destino', 'like', 'tbl_ws_cliente%')->orWhere('tabla_destino', 'like', 'tbl_ws_detalle_venta%')->update(['truncate' => 1])) {
+            
             echo "ACTUALIZANDO EL BORRADO DE LAS TABLAS \n";
         } else {
-            $consTabla->where('tabla_destino', 'like', 'tbl_ws_cliente%')->where('tabla_destino', 'like', 'tbl_ws_detalle_venta%')
+            $consTabla->where('tabla_destino', 'like', 'tbl_ws_cliente%')->orWhere('tabla_destino', 'like', 'tbl_ws_detalle_venta%')
                 ->update(['truncate' => 0]);
                 echo "NO HACE BORRADO DE LAS TABLAS \n";
         }
-
-        // dd('PARAR');
+            
         Artisan::call('integracion:verificar-tipo-documento'); // CONSULTA INVENTARIO EN BODEGAS DE LOS PRODUCTOS DE PEDIDOS APROBADOS
 
         Artisan::call('integracion:guardar-informacion'); // VERIFICA INVENTARIO MINIMO EN BODEGAS PARA REMISIONAR, MOVER INVENTARIO
