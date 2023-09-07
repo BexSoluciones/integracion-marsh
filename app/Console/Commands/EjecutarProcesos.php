@@ -51,7 +51,7 @@ class EjecutarProcesos extends Command
             $consTabla->where('tabla_destino', 'like', 'tbl_ws_detalle_venta%')->update(['truncate' => 0]);
                 echo "NO HACE BORRADO DE LAS TABLAS tbl_ws_detalle_venta \n";
         }
-            dd('PARAR');
+            // dd('PARAR');
         Artisan::call('integracion:verificar-tipo-documento'); // CONSULTA INVENTARIO EN BODEGAS DE LOS PRODUCTOS DE PEDIDOS APROBADOS
 
         Artisan::call('integracion:guardar-informacion'); // VERIFICA INVENTARIO MINIMO EN BODEGAS PARA REMISIONAR, MOVER INVENTARIO
