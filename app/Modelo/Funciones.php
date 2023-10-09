@@ -410,7 +410,7 @@ class Funciones extends Model {
         $sentencia = str_replace('@desdeItems', $consulta->desde_items, $sentencia);
         $sentencia = str_replace('@idPlan', $consulta->id_plan, $sentencia);
         $sentencia = str_replace('@idCriterio', $consulta->criterio, $sentencia);
-        $sentencia = str_replace('@idCriterioAlterno', $consulta->criterio_alterno, $sentencia);
+        $sentencia = str_replace('@idCriterioAlterno', $consulta->criterio_alterno, $sentencia);//nuevo
         $sentencia = str_replace('@buscar_campo', $consulta->buscar_campo, $sentencia);
         $sentencia = str_replace('@sentencia_alterna', $consulta->sentencia_alterna, $sentencia);
         $sentencia = str_replace('@idEstadoActivo', 1, $sentencia);
